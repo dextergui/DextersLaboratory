@@ -1,0 +1,6 @@
+{
+  "name": "DevFolio",
+  "description": "A sleek, interactive personal portfolio website designed for showcasing skillsets and micro-frontend project integrations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
