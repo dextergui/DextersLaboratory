@@ -13,8 +13,13 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'My Portfolio',
-  description: 'Interactive developer portfolio',
+  title: 'Dexter Gui | Portfolio',
+  description: 'Interactive developer portfolio — Full Stack Developer & Digital Architect',
+  openGraph: {
+    title: 'Dexter Gui | Portfolio',
+    description: 'Interactive developer portfolio — Full Stack Developer & Digital Architect',
+    images: [{ url: '/logo.svg', width: 1024, height: 1024, alt: 'DG Logo' }],
+  },
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {

@@ -1,27 +1,27 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Cpu, Layout, Server, Sparkles, Database, Globe } from "lucide-react";
+import { BrainCircuit, Layout, Server } from "lucide-react";
 
 export function Skills() {
   const categories = [
     {
-      title: "Frontend Development",
-      icon: <Layout className="w-6 h-6 text-indigo-400" />,
-      skills: ["React", "Next.js", "Tailwind CSS", "Framer Motion", "TypeScript", "Three.js"],
-      description: "Crafting beautiful, interactive user interfaces with a focus on web performance and smooth animations."
-    },
-    {
       title: "Backend & Systems",
       icon: <Server className="w-6 h-6 text-purple-400" />,
-      skills: ["Node.js", "Python", "Go", "PostgreSQL", "Redis", "GraphQL"],
-      description: "Building scalable and secure server-to-server APIs and resilient database architectures."
+      skills: ["Java", "Spring Boot", "Kafka", "AWS", "Redis", "PostgreSQL"],
+      description: "Engineering production-grade microservices and event-driven architectures powering payment platforms and credit systems at scale."
     },
     {
-      title: "Architecture",
-      icon: <Cpu className="w-6 h-6 text-pink-400" />,
-      skills: ["Micro-frontends", "Docker", "Kubernetes", "AWS", "CI/CD", "System Design"],
-      description: "Designing decentralized application networks and composing micro-frontends into unified experiences."
+      title: "Frontend & Full-Stack",
+      icon: <Layout className="w-6 h-6 text-indigo-400" />,
+      skills: ["Next.js", "React", ".NET", "AvaloniaUI", "Figma", "Tailwind CSS"],
+      description: "Building responsive web applications and cross-platform desktop tools with a focus on UI/UX design and seamless user experiences."
+    },
+    {
+      title: "AI & Data Engineering",
+      icon: <BrainCircuit className="w-6 h-6 text-pink-400" />,
+      skills: ["OpenAI", "Python", "TensorFlow", "NLP", "Google OCR", "Prompt Engineering"],
+      description: "Developing AI-driven extraction pipelines, data augmentation tools, and intelligent automation to improve accuracy and efficiency."
     }
   ];
 
@@ -54,17 +54,23 @@ export function Skills() {
               key={category.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -6 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: idx * 0.1 + 0.2 }}
-              className="group relative p-8 bg-white/[0.02] border border-white/10 hover:bg-white/5 transition-all duration-300 flex flex-col justify-between"
+              className="group relative p-8 bg-white/[0.02] border border-white/10 hover:border-white/25 hover:bg-white/[0.04] transition-all duration-500 ease-out flex flex-col justify-between hover:shadow-[0_8px_32px_rgba(255,255,255,0.03)]"
             >
+              {/* Subtle gradient overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
               <div className="relative z-10">
-                <div className="w-10 h-10 border border-white/20 flex items-center justify-center mb-6 bg-[#0a0a0b]">
-                  {category.icon}
+                <div className="w-10 h-10 border border-white/20 group-hover:border-white/40 flex items-center justify-center mb-6 bg-[#0a0a0b] transition-all duration-500 group-hover:shadow-[0_0_12px_rgba(255,255,255,0.06)]">
+                  <div className="transition-transform duration-500 group-hover:scale-110">
+                    {category.icon}
+                  </div>
                 </div>
                 
-                <h4 className="text-sm font-bold uppercase tracking-tight mb-3">{category.title}</h4>
-                <p className="text-xs leading-relaxed text-white/50 mb-6">
+                <h4 className="text-sm font-bold uppercase tracking-tight mb-3 transition-colors duration-500 group-hover:text-white">{category.title}</h4>
+                <p className="text-xs leading-relaxed text-white/50 mb-6 transition-colors duration-500 group-hover:text-white/60">
                   {category.description}
                 </p>
                 
@@ -72,7 +78,7 @@ export function Skills() {
                   {category.skills.map((skill) => (
                     <span 
                       key={skill}
-                      className="px-2 py-1 bg-white/5 text-[10px] uppercase tracking-widest text-white/70 border border-white/10"
+                      className="px-2 py-1 bg-white/5 text-[10px] uppercase tracking-widest text-white/70 border border-white/10 transition-all duration-300 group-hover:border-white/20 group-hover:bg-white/[0.08] group-hover:text-white/90"
                     >
                       {skill}
                     </span>

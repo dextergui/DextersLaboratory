@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { useState } from "react";
-import { Code2 } from "lucide-react";
+import Image from "next/image";
 
 export function Navigation() {
   const { scrollY } = useScroll();
@@ -25,11 +25,15 @@ export function Navigation() {
     >
       <div className="max-w-6xl mx-auto w-full px-6 flex items-center justify-between">
         <a href="#" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 bg-white flex items-center justify-center rounded-sm transition-transform group-hover:scale-105">
-            <span className="text-[#0a0a0b] font-black text-xl">DF</span>
-          </div>
+          <Image
+            src="/logo.svg"
+            alt="DG Logo"
+            width={40}
+            height={40}
+            className="transition-transform group-hover:scale-105 rounded-sm"
+          />
           <div className="flex flex-col">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/40">DevFolio</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/40">Dexter Gui</span>
             <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-white/70">Digital Architect</span>
           </div>
         </a>
@@ -42,9 +46,12 @@ export function Navigation() {
 
         <a 
           href="#contact" 
-          className="px-6 py-2 border border-white/20 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition-colors font-bold"
+          className="group relative px-6 py-2 border border-white/20 text-[10px] uppercase tracking-widest font-bold overflow-hidden transition-all duration-500 hover:border-white/40 hover:shadow-[0_0_20px_rgba(255,255,255,0.08)]"
         >
-          Get in Touch
+          <span className="absolute inset-0 bg-white translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+          <span className="relative z-10 transition-colors duration-500 group-hover:text-black">
+            Get in Touch
+          </span>
         </a>
       </div>
     </motion.header>

@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="flex-1 flex flex-col w-full text-white font-sans overflow-x-hidden">
       <Navigation />
-      <div className="w-full mx-auto md:border-x border-white/10 flex flex-col max-w-[1440px]">
+      <div className="w-full flex flex-col">
         <Hero />
         <Skills />
         <Projects />

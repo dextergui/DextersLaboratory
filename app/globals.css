@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+/* Ensure the Spline canvas doesn't overflow or create scrollbars */
+canvas {
+  display: block;
+}
+
+/* Smooth scroll behavior for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide the "Built with Spline" watermark */
+a[href*="spline.design"] {
+  display: none !important;
+}
