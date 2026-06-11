@@ -28,7 +28,7 @@ export function Footer() {
           </motion.p>
 
           <motion.a
-            href="mailto:dextergui.zy@gmail.com"
+            href="mailto:digudiguding@gmail.com"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -38,7 +38,7 @@ export function Footer() {
             <span className="absolute inset-0 bg-black translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
             <Mail className="relative z-10 w-4 h-4 text-black group-hover:text-white transition-colors duration-500" />
             <span className="relative z-10 text-black group-hover:text-white transition-colors duration-500">
-              dextergui.zy@gmail.com
+              digudiguding@gmail.com
             </span>
           </motion.a>
         </div>
