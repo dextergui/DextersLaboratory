@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "motion/react";
-import { ExternalLink, X, Maximize2, Terminal, Github, Play, ChevronLeft, ChevronRight, Globe, Monitor, Image as ImageIcon } from "lucide-react";
+import { ExternalLink, X, Maximize2, Terminal, Github, Play, ChevronLeft, ChevronRight, Globe, Monitor, Image as ImageIcon, Info } from "lucide-react";
 import { useState, useCallback, useEffect } from "react";
 
 type ShowcaseType = "iframe" | "video" | "screenshots";
@@ -11,6 +11,7 @@ interface Project {
   title: string;
   tech: string;
   description: string;
+  longDescription: string;
   showcaseType: ShowcaseType;
   iframeUrl?: string;
   videoUrl?: string;
@@ -25,6 +26,7 @@ const projects: Project[] = [
     title: "Inventory Management System",
     tech: "Next.js • PostgreSQL • Full-Stack",
     description: "Full-stack web application for real-time inventory tracking and management — FYP graded A.",
+    longDescription: "A comprehensive full-stack inventory management system built as my Final Year Project, graded A. The application provides real-time stock tracking, automated low-stock alerts, and detailed analytics dashboards. Built with Next.js on the frontend and PostgreSQL for robust data persistence, it features role-based access control, batch import/export functionality, and a responsive interface optimized for both desktop and tablet use in warehouse environments.",
     showcaseType: "iframe",
     iframeUrl: "", // Add your deployed URL here
     repoUrl: "", // Add your GitHub URL here
@@ -34,15 +36,17 @@ const projects: Project[] = [
     title: "WhereGotTimeSIA",
     tech: "Python • Google OCR • Telegram Bot",
     description: "Telegram bot automating SIA timesheet extraction with OCR, paycheck calculation, and calendar integration.",
+    longDescription: "WhereGotTimeSIA is a Telegram bot built to solve a real pain point for SIA cabin crew — manually calculating pay from complex timesheets. The bot uses Google Cloud Vision OCR to extract shift data from uploaded timesheet images, automatically calculates paychecks based on SIA's pay structure including flight allowances and overtime, and syncs schedules directly to Google Calendar. It handles multiple timesheet formats and provides monthly summaries with earnings breakdowns.",
     showcaseType: "screenshots",
     screenshots: [], // Add screenshot paths here
-    repoUrl: "", // Add your GitHub URL here
+    repoUrl: "https://github.com/dextergui/WhereGotTimeSIA", // Add your GitHub URL here
   },
   {
     id: "reddot-desktop",
     title: "Reddot Card Issuance Tool",
     tech: "AvaloniaUI • .NET • C#",
     description: "Cross-platform desktop application that streamlined staff onboarding and card issuance by 50%.",
+    longDescription: "A cross-platform desktop application developed for Reddot Engineering to digitize and streamline their staff card issuance process. Built with AvaloniaUI and .NET, the tool replaced a manual, paper-based workflow with an efficient digital pipeline — reducing processing time by 50%. Features include webcam integration for on-the-spot photo capture, smart card encoding via NFC readers, batch processing for bulk issuance, and a local SQLite database for offline operation in environments with limited connectivity.",
     showcaseType: "video",
     videoUrl: "", // Add screen recording path here
   },
@@ -51,15 +55,17 @@ const projects: Project[] = [
     title: "NLarge: NLP Data Augmentation",
     tech: "Python • TensorFlow • React",
     description: "Data augmentation tool for enlarging small NLP datasets, boosting sentiment model accuracy by up to 50%.",
+    longDescription: "NLarge is an open-source data augmentation library designed to tackle the challenge of limited training data in NLP projects. The tool implements multiple augmentation strategies — including synonym replacement, back-translation, contextual word embeddings, and paraphrase generation — to synthetically expand small datasets while preserving semantic meaning. Paired with a React-based web interface for visualization and configuration, NLarge demonstrated accuracy improvements of up to 50% on sentiment analysis benchmarks when augmenting datasets with as few as 500 samples.",
     showcaseType: "iframe",
-    iframeUrl: "", // Add your deployed docs URL here
-    repoUrl: "", // Add your GitHub URL here
+    iframeUrl: "dextergui-nlarge.vercel.app",
+    repoUrl: "https://github.com/dextergui/NLarge",
   },
   {
     id: "reddot-web",
     title: "Reddot Engineering Web App",
     tech: "Next.js • MantineUI • Docker",
     description: "Responsive company web application with dynamic content delivery and modern UI/UX design.",
+    longDescription: "A modern, responsive company web application built for Reddot Engineering to showcase their services and manage content dynamically. Developed with Next.js and styled using MantineUI for a polished, professional look, the app features a headless CMS integration for non-technical staff to update content, SEO-optimized pages with server-side rendering, and a containerized deployment pipeline using Docker and Docker Compose. The site includes an interactive project portfolio, team directory, and a contact system with automated email notifications.",
     showcaseType: "iframe",
     iframeUrl: "", // Add your deployed URL here
   },
@@ -68,6 +74,7 @@ const projects: Project[] = [
     title: "Project Ostrich: Cyber Range",
     tech: "Web Application • Penetration Testing",
     description: "Online cyber range platform enabling users to practice penetration testing skills in a safe environment.",
+    longDescription: "Project Ostrich is an online cyber range platform that provides a safe, sandboxed environment for cybersecurity enthusiasts and students to practice penetration testing techniques. The platform features guided challenges across multiple difficulty levels covering web exploitation, network analysis, privilege escalation, and cryptography. Each challenge runs in isolated containers to prevent cross-contamination, with real-time scoring, hint systems, and detailed write-ups upon completion. The project was developed as a collaborative team effort to make cybersecurity training more accessible.",
     showcaseType: "screenshots",
     screenshots: [], // Add screenshot paths here
     repoUrl: "", // Add your GitHub URL here
@@ -88,7 +95,13 @@ const showcaseLabels: Record<ShowcaseType, string> = {
 
 export function Projects() {
   const [activeProject, setActiveProject] = useState<string | null>(null);
+  const [showDetails, setShowDetails] = useState(false);
   const project = projects.find((p) => p.id === activeProject);
+
+  // Reset details panel when modal opens/closes
+  useEffect(() => {
+    if (!activeProject) setShowDetails(false);
+  }, [activeProject]);
 
   // Close modal on Escape key
   useEffect(() => {
@@ -156,7 +169,7 @@ export function Projects() {
                   <span className="text-[8px] uppercase tracking-widest font-bold">{showcaseLabels[proj.showcaseType]}</span>
                 </div>
               </div>
-              
+
               <div className="relative z-10 mt-auto">
                 <h4 className="text-sm font-bold uppercase tracking-tight text-white transition-colors duration-500">{proj.title}</h4>
                 <p className="text-[10px] text-white/30 mt-1 uppercase tracking-widest">{proj.tech}</p>
@@ -236,6 +249,34 @@ export function Projects() {
                 </div>
               </div>
 
+              {/* Expandable Project Details Panel */}
+              <motion.div
+                initial={false}
+                animate={{
+                  height: showDetails ? "auto" : 0,
+                  opacity: showDetails ? 1 : 0,
+                }}
+                transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+                className="overflow-hidden shrink-0 border-b border-white/10"
+              >
+                <div className="px-8 py-6 bg-gradient-to-b from-[#0a0a0b] to-[#0d0d0f]">
+                  <div className="max-w-3xl">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-8 h-8 border border-white/15 flex items-center justify-center bg-white/[0.03]">
+                        <Terminal className="w-3.5 h-3.5 text-white/40" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase tracking-tight text-white leading-none">{project.title}</h3>
+                        <p className="text-[9px] text-white/30 uppercase tracking-widest mt-1">{project.tech}</p>
+                      </div>
+                    </div>
+                    <p className="text-[13px] text-white/50 leading-relaxed tracking-wide">
+                      {project.longDescription}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
               {/* Showcase Body */}
               <div className="flex-1 bg-[#0d0d0f] relative overflow-hidden">
                 {project.showcaseType === "iframe" && (
@@ -249,17 +290,69 @@ export function Projects() {
                 )}
               </div>
 
-              {/* Bottom Info Bar */}
-              <div className="h-10 border-t border-white/10 bg-[#0a0a0b] flex items-center justify-between px-6 shrink-0">
+              {/* Bottom Info Bar with Details Toggle */}
+              <div className="h-11 border-t border-white/10 bg-[#0a0a0b] flex items-center justify-between px-6 shrink-0">
                 <div className="flex items-center gap-3">
+                  <motion.button
+                    onClick={() => setShowDetails((prev) => !prev)}
+                    initial={{ boxShadow: "0 0 0 0 rgba(255,255,255,0)" }}
+                    animate={!showDetails ? {
+                      boxShadow: [
+                        "0 0 0 0 rgba(255,255,255,0)",
+                        "0 0 8px 2px rgba(255,255,255,0.15)",
+                        "0 0 0 0 rgba(255,255,255,0)",
+                      ],
+                    } : { boxShadow: "0 0 0 0 rgba(255,255,255,0)" }}
+                    transition={!showDetails ? {
+                      duration: 2,
+                      repeat: 2,
+                      repeatDelay: 0.5,
+                      delay: 0.6,
+                    } : { duration: 0.2 }}
+                    className={`flex items-center gap-2 px-3 py-1.5 border transition-all duration-300 ${showDetails
+                      ? "bg-white/10 border-white/25 text-white/80"
+                      : "bg-white/[0.04] border-white/15 text-white/50 hover:text-white/70 hover:bg-white/[0.08] hover:border-white/30"
+                      }`}
+                  >
+                    <Info className="w-3 h-3" />
+                    <span className="text-[9px] uppercase tracking-widest font-bold">Details</span>
+                    <motion.svg
+                      width="8"
+                      height="8"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      animate={{ rotate: showDetails ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <path d="M2 4L5 7L8 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </motion.svg>
+                  </motion.button>
+                  <div className="w-px h-3 bg-white/10" />
                   <div className="flex items-center gap-1.5 text-white/30">
                     {showcaseIcons[project.showcaseType]}
                     <span className="text-[9px] uppercase tracking-widest font-bold">{showcaseLabels[project.showcaseType]}</span>
                   </div>
                   <div className="w-px h-3 bg-white/10" />
-                  <span className="text-[9px] uppercase tracking-widest text-white/20">{project.tech}</span>
+                  <span className="text-[9px] uppercase tracking-widest text-white/20 hidden sm:inline">{project.tech}</span>
                 </div>
-                <span className="text-[9px] uppercase tracking-widest text-white/20">{project.title}</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-[9px] uppercase tracking-widest text-white/20 hidden sm:inline">{project.title}</span>
+                  {project.showcaseType === "iframe" && project.iframeUrl && (
+                    <>
+                      <div className="w-px h-3 bg-white/10 hidden sm:block" />
+                      <a
+                        href={project.iframeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.06] border border-white/15 text-white/50 hover:text-white/80 hover:bg-white/[0.1] hover:border-white/30 transition-all duration-300"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        <span className="text-[9px] uppercase tracking-widest font-bold">Open Live</span>
+                      </a>
+                    </>
+                  )}
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -388,9 +481,8 @@ function ScreenshotShowcase({ project }: { project: Project }) {
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                  i === currentIndex ? "bg-white/80 w-4" : "bg-white/20 hover:bg-white/40"
-                }`}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === currentIndex ? "bg-white/80 w-4" : "bg-white/20 hover:bg-white/40"
+                  }`}
               />
             ))}
           </div>

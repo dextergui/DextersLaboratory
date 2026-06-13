@@ -46,15 +46,14 @@ export function Footer() {
         <div className="flex md:justify-end md:items-end flex-col border-l border-white/10 pl-8 h-full min-h-[200px]">
           <span className="text-[10px] uppercase tracking-[0.3em] text-white/20 mb-8 self-start md:self-end">Social Matrix</span>
           <div className="flex flex-col gap-6 w-full items-start md:items-end">
-            <SocialLink href="#" icon={<Github />} label="GitHub" delay={0.3} />
-            <SocialLink href="#" icon={<Linkedin />} label="LinkedIn" delay={0.4} />
-            <SocialLink href="#" icon={<Twitter />} label="Twitter" delay={0.5} />
+            <SocialLink href="https://github.com/dextergui/" icon={<Github />} label="GitHub" delay={0.3} />
+            <SocialLink href="https://www.linkedin.com/in/dextergui/" icon={<Linkedin />} label="LinkedIn" delay={0.4} />
           </div>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center justify-between pt-10 mt-20 border-t border-white/10 text-[10px] uppercase tracking-[0.2em] text-white/30">
-        <p>&copy; {new Date().getFullYear()} Dexter Gui &mdash; What's Next?</p>
+        <p>&copy; {new Date().getFullYear()} Dexter Gui &mdash; What&apos;s Next?</p>
         <div className="flex items-center gap-2 mt-4 md:mt-0">
           <span className="w-1.5 h-1.5 rounded-full bg-white/50 animate-pulse"></span>
           Last Updated on June 2026
