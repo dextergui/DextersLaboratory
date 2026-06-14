@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Suspense, lazy, useState, useEffect, useRef } from "react";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
@@ -95,7 +95,22 @@ export function Hero() {
 
       {/* Spline 3D Scene — mouse move/click pass through, scroll is intercepted */}
       <div ref={containerRef} className="w-full h-full">
-        <Suspense fallback={<SplineLoader />}>
+        {/* Show loader until the 3D scene has fully loaded */}
+        <AnimatePresence>
+          {!sceneLoaded && (
+            <motion.div
+              key="spline-loader"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="absolute inset-0 z-20"
+            >
+              <SplineLoader />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <Suspense fallback={null}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: sceneLoaded ? 1 : 0 }}

@@ -3,83 +3,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { ExternalLink, X, Maximize2, Terminal, Github, Play, ChevronLeft, ChevronRight, Globe, Monitor, Image as ImageIcon, Info } from "lucide-react";
 import { useState, useCallback, useEffect } from "react";
-
-type ShowcaseType = "iframe" | "video" | "screenshots";
-
-interface Project {
-  id: string;
-  title: string;
-  tech: string;
-  description: string;
-  longDescription: string;
-  showcaseType: ShowcaseType;
-  iframeUrl?: string;
-  videoUrl?: string;
-  screenshots?: string[];
-  liveUrl?: string;
-  repoUrl?: string;
-}
-
-const projects: Project[] = [
-  {
-    id: "inventory-mgmt",
-    title: "Inventory Management System",
-    tech: "Next.js • PostgreSQL • Full-Stack",
-    description: "Full-stack web application for real-time inventory tracking and management — FYP graded A.",
-    longDescription: "A comprehensive full-stack inventory management system built as my Final Year Project, graded A. The application provides real-time stock tracking, automated low-stock alerts, and detailed analytics dashboards. Built with Next.js on the frontend and PostgreSQL for robust data persistence, it features role-based access control, batch import/export functionality, and a responsive interface optimized for both desktop and tablet use in warehouse environments.",
-    showcaseType: "iframe",
-    iframeUrl: "", // Add your deployed URL here
-    repoUrl: "", // Add your GitHub URL here
-  },
-  {
-    id: "wheregottimesia",
-    title: "WhereGotTimeSIA",
-    tech: "Python • Google OCR • Telegram Bot",
-    description: "Telegram bot automating SIA timesheet extraction with OCR, paycheck calculation, and calendar integration.",
-    longDescription: "WhereGotTimeSIA is a Telegram bot built to solve a real pain point for SIA cabin crew — manually calculating pay from complex timesheets. The bot uses Google Cloud Vision OCR to extract shift data from uploaded timesheet images, automatically calculates paychecks based on SIA's pay structure including flight allowances and overtime, and syncs schedules directly to Google Calendar. It handles multiple timesheet formats and provides monthly summaries with earnings breakdowns.",
-    showcaseType: "screenshots",
-    screenshots: [], // Add screenshot paths here
-    repoUrl: "https://github.com/dextergui/WhereGotTimeSIA", // Add your GitHub URL here
-  },
-  {
-    id: "reddot-desktop",
-    title: "Reddot Card Issuance Tool",
-    tech: "AvaloniaUI • .NET • C#",
-    description: "Cross-platform desktop application that streamlined staff onboarding and card issuance by 50%.",
-    longDescription: "A cross-platform desktop application developed for Reddot Engineering to digitize and streamline their staff card issuance process. Built with AvaloniaUI and .NET, the tool replaced a manual, paper-based workflow with an efficient digital pipeline — reducing processing time by 50%. Features include webcam integration for on-the-spot photo capture, smart card encoding via NFC readers, batch processing for bulk issuance, and a local SQLite database for offline operation in environments with limited connectivity.",
-    showcaseType: "video",
-    videoUrl: "", // Add screen recording path here
-  },
-  {
-    id: "nlarge",
-    title: "NLarge: NLP Data Augmentation",
-    tech: "Python • TensorFlow • React",
-    description: "Data augmentation tool for enlarging small NLP datasets, boosting sentiment model accuracy by up to 50%.",
-    longDescription: "NLarge is an open-source data augmentation library designed to tackle the challenge of limited training data in NLP projects. The tool implements multiple augmentation strategies — including synonym replacement, back-translation, contextual word embeddings, and paraphrase generation — to synthetically expand small datasets while preserving semantic meaning. Paired with a React-based web interface for visualization and configuration, NLarge demonstrated accuracy improvements of up to 50% on sentiment analysis benchmarks when augmenting datasets with as few as 500 samples.",
-    showcaseType: "iframe",
-    iframeUrl: "dextergui-nlarge.vercel.app",
-    repoUrl: "https://github.com/dextergui/NLarge",
-  },
-  {
-    id: "reddot-web",
-    title: "Reddot Engineering Web App",
-    tech: "Next.js • MantineUI • Docker",
-    description: "Responsive company web application with dynamic content delivery and modern UI/UX design.",
-    longDescription: "A modern, responsive company web application built for Reddot Engineering to showcase their services and manage content dynamically. Developed with Next.js and styled using MantineUI for a polished, professional look, the app features a headless CMS integration for non-technical staff to update content, SEO-optimized pages with server-side rendering, and a containerized deployment pipeline using Docker and Docker Compose. The site includes an interactive project portfolio, team directory, and a contact system with automated email notifications.",
-    showcaseType: "iframe",
-    iframeUrl: "", // Add your deployed URL here
-  },
-  {
-    id: "project-ostrich",
-    title: "Project Ostrich: Cyber Range",
-    tech: "Web Application • Penetration Testing",
-    description: "Online cyber range platform enabling users to practice penetration testing skills in a safe environment.",
-    longDescription: "Project Ostrich is an online cyber range platform that provides a safe, sandboxed environment for cybersecurity enthusiasts and students to practice penetration testing techniques. The platform features guided challenges across multiple difficulty levels covering web exploitation, network analysis, privilege escalation, and cryptography. Each challenge runs in isolated containers to prevent cross-contamination, with real-time scoring, hint systems, and detailed write-ups upon completion. The project was developed as a collaborative team effort to make cybersecurity training more accessible.",
-    showcaseType: "screenshots",
-    screenshots: [], // Add screenshot paths here
-    repoUrl: "", // Add your GitHub URL here
-  },
-];
+import { projects, type Project, type ShowcaseType } from "@/lib/data/projects";
 
 const showcaseIcons: Record<ShowcaseType, React.ReactNode> = {
   iframe: <Globe className="w-3.5 h-3.5" />,
@@ -91,6 +15,12 @@ const showcaseLabels: Record<ShowcaseType, string> = {
   iframe: "Live App",
   video: "Demo Video",
   screenshots: "Gallery",
+};
+
+const formatUrl = (url?: string) => {
+  if (!url) return undefined;
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `https://${url}`;
 };
 
 export function Projects() {
@@ -161,7 +91,7 @@ export function Projects() {
 
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 border border-white/20 group-hover:border-white/40 flex items-center justify-center bg-[#0d0d0f]/50 transition-all duration-500 group-hover:shadow-[0_0_12px_rgba(255,255,255,0.06)]">
-                  <Terminal className="w-4 h-4 text-white/50 group-hover:text-white/70 transition-colors duration-500" />
+                  {proj.logo || <Terminal className="w-4 h-4 text-white/50 group-hover:text-white/70 transition-colors duration-500" />}
                 </div>
                 {/* Showcase type badge */}
                 <div className="flex items-center gap-1.5 px-2 py-1 bg-white/5 border border-white/10 text-white/30 group-hover:text-white/50 transition-colors duration-500">
@@ -201,7 +131,7 @@ export function Projects() {
               exit={{ scale: 0.98, opacity: 0, y: 10 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-5xl h-[80vh] bg-[#0d0d0f] border border-white/20 flex flex-col overflow-hidden"
+              className="w-full max-w-7xl h-[90vh] bg-[#0d0d0f] border border-white/20 flex flex-col overflow-hidden"
             >
               {/* Browser Chrome Bar */}
               <div className="h-12 border-b border-white/10 bg-[#0a0a0b] flex items-center justify-between px-6 shrink-0">
@@ -220,7 +150,7 @@ export function Projects() {
                 <div className="flex items-center gap-2">
                   {project.repoUrl && (
                     <a
-                      href={project.repoUrl}
+                      href={formatUrl(project.repoUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-2 text-white/30 hover:text-white transition-colors"
@@ -231,7 +161,7 @@ export function Projects() {
                   )}
                   {project.liveUrl && (
                     <a
-                      href={project.liveUrl}
+                      href={formatUrl(project.liveUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-2 text-white/30 hover:text-white transition-colors"
@@ -263,7 +193,7 @@ export function Projects() {
                   <div className="max-w-3xl">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-8 h-8 border border-white/15 flex items-center justify-center bg-white/[0.03]">
-                        <Terminal className="w-3.5 h-3.5 text-white/40" />
+                        {project.logo || <Terminal className="w-3.5 h-3.5 text-white/40" />}
                       </div>
                       <div>
                         <h3 className="text-sm font-bold uppercase tracking-tight text-white leading-none">{project.title}</h3>
@@ -342,7 +272,7 @@ export function Projects() {
                     <>
                       <div className="w-px h-3 bg-white/10 hidden sm:block" />
                       <a
-                        href={project.iframeUrl}
+                        href={formatUrl(project.iframeUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.06] border border-white/15 text-white/50 hover:text-white/80 hover:bg-white/[0.1] hover:border-white/30 transition-all duration-300"
@@ -382,7 +312,7 @@ function IframeShowcase({ project }: { project: Project }) {
         </div>
       )}
       <iframe
-        src={project.iframeUrl}
+        src={formatUrl(project.iframeUrl)}
         className="w-full h-full border-0"
         onLoad={() => setIsLoading(false)}
         title={project.title}
